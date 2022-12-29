@@ -1,0 +1,168 @@
+@font-face {
+     font-family: 'Tactic Sans Extended';
+     src: url('../fonts/TacticSansExt/TacticSansExd-Blk.eot');
+     src: local('Tactic Sans Extended Black'), local('TacticSansExd-Blk'),
+         url('../fonts/TacticSansExt/TacticSansExd-Blk.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/TacticSansExt/TacticSansExd-Blk.woff2') format('woff2'),
+         url('../fonts/TacticSansExt/TacticSansExd-Blk.woff') format('woff'),
+         url('../fonts/TacticSansExt/TacticSansExd-Blk.ttf') format('truetype');
+     font-weight: 900;
+     font-style: normal;
+ }
+
+ @font-face {
+     font-family: 'Tactic Sans Extended';
+     src: url('../fonts/TacticSansExt/TacticSansExd-BlkIt.eot');
+     src: local('Tactic Sans Extended Black Italic'), local('TacticSansExd-BlkIt'),
+         url('../fonts/TacticSansExt/TacticSansExd-BlkIt.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/TacticSansExt/TacticSansExd-BlkIt.woff2') format('woff2'),
+         url('../fonts/TacticSansExt/TacticSansExd-BlkIt.woff') format('woff'),
+         url('../fonts/TacticSansExt/TacticSansExd-BlkIt.ttf') format('truetype');
+     font-weight: 900;
+     font-style: italic;
+ }
+
+ @font-face {
+     font-family: 'Tactic Sans Extended';
+     src: url('../fonts/TacticSansExt/TacticSansExd-LgtIt.eot');
+     src: local('Tactic Sans Extended Light Italic'), local('TacticSansExd-LgtIt'),
+         url('../fonts/TacticSansExt/TacticSansExd-LgtIt.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/TacticSansExt/TacticSansExd-LgtIt.woff2') format('woff2'),
+         url('../fonts/TacticSansExt/TacticSansExd-LgtIt.woff') format('woff'),
+         url('../fonts/TacticSansExt/TacticSansExd-LgtIt.ttf') format('truetype');
+     font-weight: 300;
+     font-style: italic;
+ }
+
+ @font-face {
+     font-family: 'Tactic Sans Extended';
+     src: url('../fonts/TacticSansExt/TacticSansExd-ThnIt.eot');
+     src: local('Tactic Sans Extended Thin Italic'), local('TacticSansExd-ThnIt'),
+         url('../fonts/TacticSansExt/TacticSansExd-ThnIt.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/TacticSansExt/TacticSansExd-ThnIt.woff2') format('woff2'),
+         url('../fonts/TacticSansExt/TacticSansExd-ThnIt.woff') format('woff'),
+         url('../fonts/TacticSansExt/TacticSansExd-ThnIt.ttf') format('truetype');
+     font-weight: 100;
+     font-style: italic;
+ }
+
+ @font-face {
+     font-family: 'Tactic Sans Extended';
+     src: url('../fonts/TacticSansExt/TacticSansExd-Bld.eot');
+     src: local('Tactic Sans Extended Bold'), local('TacticSansExd-Bld'),
+         url('../fonts/TacticSansExt/TacticSansExd-Bld.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/TacticSansExt/TacticSansExd-Bld.woff2') format('woff2'),
+         url('../fonts/TacticSansExt/TacticSansExd-Bld.woff') format('woff'),
+         url('../fonts/TacticSansExt/TacticSansExd-Bld.ttf') format('truetype');
+     font-weight: bold;
+     font-style: normal;
+ }
+
+ @font-face {
+     font-family: 'Tactic Sans Extended';
+     src: url('../fonts/TacticSansExt/TacticSansExd-BldIt.eot');
+     src: local('Tactic Sans Extended Bold Italic'), local('TacticSansExd-BldIt'),
+         url('../fonts/TacticSansExt/TacticSansExd-BldIt.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/TacticSansExt/TacticSansExd-BldIt.woff2') format('woff2'),
+         url('../fonts/TacticSansExt/TacticSansExd-BldIt.woff') format('woff'),
+         url('../fonts/TacticSansExt/TacticSansExd-BldIt.ttf') format('truetype');
+     font-weight: bold;
+     font-style: italic;
+ }
+
+ @font-face {
+     font-family: 'Tactic Sans Extended';
+     src: url('../fonts/TacticSansExt/TacticSansExd-RegIt.eot');
+     src: local('Tactic Sans Extended Italic'), local('TacticSansExd-RegIt'),
+         url('../fonts/TacticSansExt/TacticSansExd-RegIt.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/TacticSansExt/TacticSansExd-RegIt.woff2') format('woff2'),
+         url('../fonts/TacticSansExt/TacticSansExd-RegIt.woff') format('woff'),
+         url('../fonts/TacticSansExt/TacticSansExd-RegIt.ttf') format('truetype');
+     font-weight: normal;
+     font-style: italic;
+ }
+
+ @font-face {
+     font-family: 'Tactic Sans Extended';
+     src: url('../fonts/TacticSansExt/TacticSansExd-Med.eot');
+     src: local('Tactic Sans Extended Medium'), local('TacticSansExd-Med'),
+         url('../fonts/TacticSansExt/TacticSansExd-Med.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/TacticSansExt/TacticSansExd-Med.woff2') format('woff2'),
+         url('../fonts/TacticSansExt/TacticSansExd-Med.woff') format('woff'),
+         url('../fonts/TacticSansExt/TacticSansExd-Med.ttf') format('truetype');
+     font-weight: 500;
+     font-style: normal;
+ }
+
+ @font-face {
+     font-family: 'Tactic Sans Extended';
+     src: url('../fonts/TacticSansExt/TacticSansExd-MedIt.eot');
+     src: local('Tactic Sans Extended Medium Italic'), local('TacticSansExd-MedIt'),
+         url('../fonts/TacticSansExt/TacticSansExd-MedIt.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/TacticSansExt/TacticSansExd-MedIt.woff2') format('woff2'),
+         url('../fonts/TacticSansExt/TacticSansExd-MedIt.woff') format('woff'),
+         url('../fonts/TacticSansExt/TacticSansExd-MedIt.ttf') format('truetype');
+     font-weight: 500;
+     font-style: italic;
+ }
+
+ @font-face {
+     font-family: 'Tactic Sans Extended';
+     src: url('../fonts/TacticSansExt/TacticSansExd-Lgt.eot');
+     src: local('Tactic Sans Extended Light'), local('TacticSansExd-Lgt'),
+         url('../fonts/TacticSansExt/TacticSansExd-Lgt.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/TacticSansExt/TacticSansExd-Lgt.woff2') format('woff2'),
+         url('../fonts/TacticSansExt/TacticSansExd-Lgt.woff') format('woff'),
+         url('../fonts/TacticSansExt/TacticSansExd-Lgt.ttf') format('truetype');
+     font-weight: 300;
+     font-style: normal;
+ }
+
+ @font-face {
+     font-family: 'Tactic Sans Extended';
+     src: url('../fonts/TacticSansExt/TacticSansExd-Thn.eot');
+     src: local('Tactic Sans Extended Thin'), local('TacticSansExd-Thn'),
+         url('../fonts/TacticSansExt/TacticSansExd-Thn.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/TacticSansExt/TacticSansExd-Thn.woff2') format('woff2'),
+         url('../fonts/TacticSansExt/TacticSansExd-Thn.woff') format('woff'),
+         url('../fonts/TacticSansExt/TacticSansExd-Thn.ttf') format('truetype');
+     font-weight: 100;
+     font-style: normal;
+ }
+
+ @font-face {
+     font-family: 'Tactic Sans Extended Ultra';
+     src: url('../fonts/TacticSansExt/TacticSansExd-Ult.eot');
+     src: local('Tactic Sans Extended Ultra'), local('TacticSansExd-Ult'),
+         url('../fonts/TacticSansExt/TacticSansExd-Ult.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/TacticSansExt/TacticSansExd-Ult.woff2') format('woff2'),
+         url('../fonts/TacticSansExt/TacticSansExd-Ult.woff') format('woff'),
+         url('../fonts/TacticSansExt/TacticSansExd-Ult.ttf') format('truetype');
+     font-weight: normal;
+     font-style: normal;
+ }
+
+ @font-face {
+     font-family: 'Tactic Sans Extended Ultra';
+     src: url('../fonts/TacticSansExt/TacticSansExd-UltIt.eot');
+     src: local('Tactic Sans Extended Ultra Italic'), local('TacticSansExd-UltIt'),
+         url('../fonts/TacticSansExt/TacticSansExd-UltIt.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/TacticSansExt/TacticSansExd-UltIt.woff2') format('woff2'),
+         url('../fonts/TacticSansExt/TacticSansExd-UltIt.woff') format('woff'),
+         url('../fonts/TacticSansExt/TacticSansExd-UltIt.ttf') format('truetype');
+     font-weight: normal;
+     font-style: italic;
+ }
+
+ @font-face {
+     font-family: 'Tactic Sans Extended';
+     src: url('../fonts/TacticSansExt/TacticSansExd-Reg.eot');
+     src: local('Tactic Sans Extended'), local('TacticSansExd-Reg'),
+         url('../fonts/TacticSansExt/TacticSansExd-Reg.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/TacticSansExt/TacticSansExd-Reg.woff2') format('woff2'),
+         url('../fonts/TacticSansExt/TacticSansExd-Reg.woff') format('woff'),
+         url('../fonts/TacticSansExt/TacticSansExd-Reg.ttf') format('truetype');
+     font-weight: normal;
+     font-style: normal;
+ }
+

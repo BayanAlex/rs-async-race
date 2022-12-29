@@ -1,0 +1,26 @@
+$main-color: #FF9D03;
+$disabled-bg-color: rgb(155, 155, 155);
+
+@mixin flex-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+@mixin flex-row-center {
+  @include flex-row;
+  justify-content: center;
+}
+
+@mixin flex-column {
+  @include flex-row;
+  align-items: start;
+  flex-direction: column;
+}
+
+@mixin disabled {
+  cursor: default;
+  background-color: $disabled-bg-color;
+  color: #494949;
+  border-color: #494949;
+}

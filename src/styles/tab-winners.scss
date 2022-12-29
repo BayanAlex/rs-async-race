@@ -1,0 +1,42 @@
+@import './mixin-var.scss';
+
+.winners-table {
+  margin-bottom: 30px;
+
+  &-wrap {
+    @include flex-row-center;
+    width: 100%;
+  }
+
+  svg {
+    scale: 0.7;
+  }
+
+  &__cell {
+    text-align: center;
+    padding: 5px 15px;
+    background-color: gray;
+    color: #000000;
+  }
+
+  &__header-cell {
+    text-transform: uppercase;
+    padding: 15px;
+    background-color: $main-color;
+    color: #000000;
+    &[data-sort] {
+      cursor: pointer;
+    }
+  }
+}
+
+.tab-winners {
+
+  &__page-controls {
+    justify-content: center;
+  }
+
+  &__caption {
+    justify-content: center;
+  }
+}

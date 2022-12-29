@@ -1,0 +1,20 @@
+[
+  {
+    "brand": "BMW",
+    "models": [
+      "M3", "M4", "M5", "M7", "3.0 CSL", "E34", "E30", "E39", "E38", "E60"
+    ]
+  },
+  {
+    "brand": "Mercedes",
+    "models": [
+      "W124 E500", "W140", "W123", "W210", "W211"
+    ]
+  },
+  {
+    "brand": "Nissan",
+    "models": [
+      "GT-R", "Skyline", "Silvia", "Bluebird"
+    ]
+  }
+]

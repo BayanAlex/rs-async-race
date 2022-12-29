@@ -1,0 +1,94 @@
+@import './mixin-var.scss';
+
+.tab-garage {
+
+  &__page-controls {
+    justify-content: center;
+  }
+}
+
+.control-panel {
+
+  &__button {
+    width: 135px;
+
+    &__create {
+
+    }
+  }
+}
+
+.control-panel {
+  @include flex-column;
+}
+
+.new-car {
+  @include flex-row;
+}
+
+.update-car {
+  @include flex-row;
+}
+
+.controls {
+  @include flex-row;
+  &__race-button {
+    width: 115px;
+  }
+  &__reset-button {
+    width: 115px;
+  }
+  &__generate-button {
+    width: 175px;
+  }
+}
+
+.race-area {
+  width: 100%;
+}
+
+.race {
+  width: 100%;
+  margin-bottom: 35px;
+
+  &__road {
+    height: 120px;
+    width: calc(100% + 80px);
+    position: relative;
+    left: -40px;
+    background: url('./../images/race-bg.svg') 0 0/ cover repeat;
+  }
+
+  &__car {
+    width: fit-content;
+    position: absolute;
+    bottom: 5px;
+    left: 40px;
+    height: 65px;
+    z-index: 2;
+  }
+
+  &__flag {
+    position: absolute;
+    bottom: 1px;
+    right: 135px;
+  }
+
+  &__buttons, &__controls {
+    @include flex-row;
+  }
+
+  &__buttons {
+    margin-bottom: 15px;
+  }
+
+  &__button {
+    width: 135px;
+  }
+
+  &__control {
+    &_start {
+      padding-left: 2px;
+    }
+  }
+}
