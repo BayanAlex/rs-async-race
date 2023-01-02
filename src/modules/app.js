@@ -12,6 +12,9 @@ import {
   uiDeleteCarFromWinners,
   uiDeleteCarFromGarage,
   uiGetWinnersSortSettings,
+  uiDriveCar,
+  uiStopCar,
+  uiResetRace,
 } from './ui';
 
 import { libGenerateCars } from './lib';
@@ -151,6 +154,32 @@ class RaceApp {
     });
   };
 
+  startCar = async (id) => {
+    let result = await apiStartCar(id);
+    if (result.status) return;
+    uiDriveCar(id, result);
+    result = await apiDriveCar(id);
+    console.log('drive', result);
+    switch (result.status) {
+      case 'finished':
+        uiStopCar(id);
+        break;
+      case 'broken':
+        uiStopCar(id);
+        break;
+      default:
+    }
+  };
+
+  resetCar = async (id) => {
+    const result = await apiStopCar(id);
+    console.log('stop', result);
+    if (result.status) return;
+    if (+result.velocity === 0) {
+      uiResetRace(id);
+    }
+  };
+
   setCallbacks() {
     uiSetCallbacks(
       this.createCar,
@@ -162,6 +191,8 @@ class RaceApp {
       this.winnersNextPage,
       this.getWinners,
       this.generateCars,
+      this.startCar,
+      this.resetCar,
     );
   }
 

@@ -1,5 +1,7 @@
 const mainTabs = ['garage', 'winners'];
 let deleteCarCallback;
+let startCarCallback;
+let resetCarCallback;
 
 const disableButtonNext = (tabName) => setDisabled(document.querySelector(`.tab-${tabName} .page-controls__button_next`));
 const disableButtonPrevious = (tabName) => setDisabled(document.querySelector(`.tab-${tabName} .page-controls__button_prev`));
@@ -149,10 +151,6 @@ function uiDecWinnersCount() {
   uiSetCount('winners', uiGetCount('winners') - 1);
 }
 
-function uiResetRace(id) {
-
-}
-
 // function uiSetGaragePage(cars, page, pagesCount) {
 //   document.querySelectorAll('.race').forEach((race) => race.remove());
 //   cars.forEach((car) => uiAddCarToGarage(car));
@@ -194,6 +192,9 @@ function uiSetPage(pageName, pageNum, pagesCount, cars, addCarCallback) {
 
 function uiSetGaragePage(pageNum, pagesCount, cars) {
   uiSetPage('garage', pageNum, pagesCount, cars, uiAddCarToGarage);
+  document.querySelectorAll('.race').forEach((race) => {
+    uiResetRace(race.dataset.id);
+  });
 }
 
 function uiSetWinnersPage(pageNum, maxCarsOnPage, pagesCount, cars) {
@@ -205,6 +206,41 @@ function uiSetWinnersPage(pageNum, maxCarsOnPage, pagesCount, cars) {
   });
 }
 
+function uiDriveCar(id, { velocity, distance }) {
+  const race = document.querySelector(`.race[data-id="${id}"]`);
+  if (!race) return;
+  const car = race.querySelector('.race__car');
+  setEnabled(race.querySelector('.race__control_stop'));
+  const time = Math.round(distance / velocity);
+  car.style.transitionDuration = `${time}ms`;
+  car.querySelectorAll('.car__wheel').forEach((wheel) => {
+    wheel.style.transitionDuration = `${time}ms`;
+  });
+  car.classList.add('race-animation');
+}
+
+function uiStopCar(id) {
+  const car = document.querySelector(`.race[data-id="${id}"] .race__car`);
+  if (!car) return;
+  const currentPosition = window.getComputedStyle(car, null).getPropertyValue('left');
+  car.style.left = currentPosition;
+  car.style.transitionDuration = '';
+  car.querySelectorAll('.car__wheel').forEach((wheel) => {
+    wheel.style.transitionDuration = '';
+  });
+  car.classList.remove('race-animation');
+}
+
+function uiResetRace(id) {
+  const race = document.querySelector(`.race[data-id="${id}"]`);
+  if (!race) return;
+  const car = race.querySelector('.race__car');
+  setEnabled(race.querySelector('.race__control_start'));
+  setDisabled(race.querySelector('.race__control_stop'));
+  uiStopCar(id);
+  car.style.left = '';
+}
+
 async function uiAddCarToGarage({ id, name, color }) {
   addElement('.race-area', 'div', 'race page__item', null, null, { name: 'data-id', value: id });
   const currentRace = `.race[data-id="${id}"]`;
@@ -214,14 +250,8 @@ async function uiAddCarToGarage({ id, name, color }) {
   addElement(`${currentRace}`, 'div', 'race__controls', '');
   addElement(`${currentRace} .race__controls`, 'button', 'button button_main-color button_round race__control race__control_start');
   addElement(`${currentRace} .race__control_start`, 'img', 'race__control-img', null, null, { name: 'src', value: './images/button-start.svg' });
-  document.querySelector(`${currentRace} .race__control_start`).addEventListener('click', () => {
-    document.querySelector(`${currentRace} .race__car`).classList.add('race-animation');
-  });
-  addElement(`${currentRace} .race__controls`, 'button', 'button button_main-color button_round race__control race__control_stop');
+  addElement(`${currentRace} .race__controls`, 'button', 'button button_main-color button_round race__control race__control_stop', null, null, { name: 'disabled', value: '' });
   addElement(`${currentRace} .race__control_stop`, 'img', 'race__control-img', null, null, { name: 'src', value: './images/button-stop.svg' });
-  document.querySelector(`${currentRace} .race__control_stop`).addEventListener('click', () => {
-    document.querySelector(`${currentRace} .race__car`).classList.remove('race-animation');
-  });
   addElement(`${currentRace} .race__controls`, 'p', 'race__car-name page__car-name');
   addElement(currentRace, 'div', 'race__road');
   addElement(`${currentRace} .race__road`, 'div', 'race__car page__car');
@@ -233,9 +263,26 @@ async function uiAddCarToGarage({ id, name, color }) {
   document.querySelector(`${currentRace} .race__button_remove`).addEventListener('click', (event) => {
     deleteCarCallback(getElementAttribute(event.target.closest('.race'), 'data-id'));
   });
+
   document.querySelector(`${currentRace} .race__button_select`).addEventListener('click', (event) => {
     uiSelectCar(getElementAttribute(event.target.closest('.race'), 'data-id'));
   });
+
+  document.querySelector(`${currentRace} .race__control_start`).addEventListener('click', (event) => {
+    const carId = getElementAttribute(event.target.closest('.race'), 'data-id');
+    const race = document.querySelector(`.race[data-id="${carId}"]`);
+    setDisabled(race.querySelector('.race__control_start'));
+    startCarCallback(carId);
+  });
+
+  document.querySelector(`${currentRace} .race__control_stop`).addEventListener('click', (event) => {
+    const carId = getElementAttribute(event.target.closest('.race'), 'data-id');
+    const race = document.querySelector(`.race[data-id="${carId}"]`);
+    uiStopCar(carId);
+    setDisabled(race.querySelector('.race__control_stop'));
+    resetCarCallback(carId);
+  });
+
   setEnabled('.controls__race-button');
   // garagePages.update();
 }
@@ -340,6 +387,8 @@ function uiSetCallbacks(
   winnersNextPage,
   winnersSort,
   generateCars,
+  startCar,
+  resetCar,
 ) {
   document.querySelector('.tab-garage__prev-page').addEventListener('click', garagePreviousPage);
   document.querySelector('.tab-garage__next-page').addEventListener('click', garageNextPage);
@@ -379,6 +428,8 @@ function uiSetCallbacks(
   });
 
   deleteCarCallback = deleteCallback;
+  startCarCallback = startCar;
+  resetCarCallback = resetCar;
 }
 
 function initControlPanel() {
@@ -537,4 +588,7 @@ export {
   uiSetCallbacks,
   uiUpdateCar,
   uiGetWinnersSortSettings,
+  uiDriveCar,
+  uiStopCar,
+  uiResetRace,
 };
