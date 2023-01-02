@@ -1,165 +1,25 @@
 const mainTabs = ['garage', 'winners'];
-const maxGaragePageItems = 7;
-const maxWinnersPageItems = 3;
-let garagePages;
-let winnersPages;
+let deleteCarCallback;
 
-class Paginator {
-  currentPage = 1;
+const disableButtonNext = (tabName) => setDisabled(document.querySelector(`.tab-${tabName} .page-controls__button_next`));
+const disableButtonPrevious = (tabName) => setDisabled(document.querySelector(`.tab-${tabName} .page-controls__button_prev`));
+const enableButtonNext = (tabName) => setEnabled(document.querySelector(`.tab-${tabName} .page-controls__button_next`));
+const enableButtonPrevious = (tabName) => setEnabled(document.querySelector(`.tab-${tabName} .page-controls__button_prev`));
 
-  pagesCount = 1;
+function setPageControls(tabName, currentPage, pagesCount) {
+  document.querySelector(`.tab-${tabName} .page-controls__number`).textContent = currentPage;
 
-  itemsCount = 0;
-
-  constructor(contentElementClass, pageControlsElementClass, maxItemsPerPage) {
-    this.contentElement = document.querySelector(`.${contentElementClass}`);
-    this.pageControlsElement = document.querySelector(`.${pageControlsElementClass}`);
-    this.maxItemsPerPage = maxItemsPerPage;
-
-    this.pageControlsElement.querySelector('.page-controls__button_prev').addEventListener('click', () => {
-      this.#previousPage();
-    });
-
-    this.pageControlsElement.querySelector('.page-controls__button_next').addEventListener('click', () => {
-      this.#nextPage();
-    });
-
-    // this.observer = new MutationObserver(() => this.update());
-    // this.observer.observe(this.contentElement, { childList: true });
+  if (currentPage === pagesCount) {
+    disableButtonNext(tabName);
+  } else {
+    enableButtonNext(tabName);
   }
 
-  #addPage() {
-    this.pagesCount += 1;
+  if (currentPage === 1) {
+    disableButtonPrevious(tabName);
+  } else {
+    enableButtonPrevious(tabName);
   }
-
-  #removeLastPage() {
-    this.pagesCount -= 1;
-  }
-
-  #disableButton(button) {
-    setDisabled(button);
-  }
-
-  #disableButtonNext() {
-    this.#disableButton(this.pageControlsElement.querySelector('.page-controls__button_next'));
-  }
-
-  #disableButtonPrevious() {
-    this.#disableButton(this.pageControlsElement.querySelector('.page-controls__button_prev'));
-  }
-
-  #enableButton(button) {
-    setEnabled(button);
-  }
-
-  #enableButtonNext() {
-    this.#enableButton(this.pageControlsElement.querySelector('.page-controls__button_next'));
-  }
-
-  #enableButtonPrevious() {
-    this.#enableButton(this.pageControlsElement.querySelector('.page-controls__button_prev'));
-  }
-
-  #setPageControls() {
-    this.pageControlsElement.querySelector('.page-controls__number').textContent = this.currentPage;
-
-    if (this.currentPage === this.pagesCount) {
-      this.#disableButtonNext();
-    } else {
-      this.#enableButtonNext();
-    }
-
-    if (this.currentPage === 1) {
-      this.#disableButtonPrevious();
-    } else {
-      this.#enableButtonPrevious();
-    }
-  }
-
-  setPage(index) {
-    let start = (this.currentPage - 1) * this.maxItemsPerPage;
-    if (start <= this.contentElement.children.length - 1) {
-      for (let itemIndex = start; itemIndex <= start + this.maxItemsPerPage - 1; itemIndex += 1) {
-        hideElement(this.contentElement.children[itemIndex]);
-        if (itemIndex === this.contentElement.children.length - 1) break;
-      }
-    }
-
-    start = (index - 1) * this.maxItemsPerPage;
-    for (let itemIndex = start; itemIndex <= start + this.maxItemsPerPage - 1; itemIndex += 1) {
-      showElement(this.contentElement.children[itemIndex]);
-      if (itemIndex === this.contentElement.children.length - 1) break;
-    }
-
-    this.currentPage = index;
-    this.#setPageControls();
-  }
-
-  #nextPage() {
-    this.setPage(this.currentPage + 1);
-  }
-
-  #previousPage() {
-    this.setPage(this.currentPage - 1);
-  }
-
-  update() {
-    this.itemsCount = this.contentElement.children.length;
-    this.pagesCount = Math.ceil(this.itemsCount / this.maxItemsPerPage);
-    if (this.pagesCount === 0) {
-      this.pagesCount = 1;
-    }
-
-    if (this.currentPage > this.pagesCount) {
-      this.currentPage = this.pagesCount;
-    }
-    const currentPageStartIndex = (this.currentPage - 1) * this.maxItemsPerPage;
-    const currentPageEndIndex = currentPageStartIndex + this.maxItemsPerPage - 1;
-    for (let i = 0; i < this.itemsCount; i += 1) {
-      if (i >= currentPageStartIndex && i <= currentPageEndIndex) {
-        showElement(this.contentElement.children[i]);
-      } else {
-        hideElement(this.contentElement.children[i]);
-      }
-    }
-    this.#setPageControls();
-  }
-
-  // addItem() {
-  //   this.itemsCount += 1;
-  //   if (Math.ceil(this.itemsCount / this.maxItemsPerPage) > this.pagesCount) {
-  //     this.#addPage();
-  //   }
-  //   this.setPage(this.pagesCount);
-  // }
-
-  // removeItem(id) {
-  //   this.itemsCount -= 1;
-  //   if (this.itemsCount === 0) return;
-  //   if (Math.ceil(this.itemsCount / this.maxItemsPerPage) < this.pagesCount) {
-  //     this.#removeLastPage();
-  //     if (this.currentPage > this.pagesCount) {
-  //       this.setPage(this.pagesCount);
-  //       return;
-  //     }
-  //     if (this.currentPage === this.pagesCount) {
-  //       this.#disableButtonNext();
-  //       return;
-  //     }
-  //   }
-
-  //   const index = Array.from(this.contentElement.children)
-  //     .findIndex((item) => +item.dataset.id === id) + 1;
-  //   if (this.currentPage === this.pagesCount
-  //       && index <= (this.pagesCount - 1) * this.maxItemsPerPage && index > 0) {
-  //     hideElement(this.contentElement.children[(this.currentPage - 1) * this.maxItemsPerPage]);
-  //     return;
-  //   }
-
-  //   if (this.currentPage < this.pagesCount) {
-  //     showElement(this.contentElement.children[this.currentPage * this.maxItemsPerPage - 1]);
-  //   }
-  // }
 }
 
 function createElement(elementType, classList, id, text, attributes) {
@@ -212,10 +72,9 @@ function setElementAttribute(element, attribute, value) {
 
 function getElementAttribute(element, attribute) {
   if (typeof element === 'string') {
-    document.querySelector(element).getAttribute(attribute);
-  } else {
-    element.getAttribute(attribute);
+    return document.querySelector(element).getAttribute(attribute);
   }
+  return element.getAttribute(attribute);
 }
 
 function removeElementAttribute(element, attribute) {
@@ -266,12 +125,20 @@ function uiSetCount(tab, count) {
   document.querySelector(`.tab-${tab}__cars-count`).textContent = count;
 }
 
+function uiSetGarageCount(count) {
+  uiSetCount('garage', count);
+}
+
 function uiIncGarageCount() {
   uiSetCount('garage', uiGetCount('garage') + 1);
 }
 
 function uiDecGarageCount() {
   uiSetCount('garage', uiGetCount('garage') - 1);
+}
+
+function uiSetWinnersCount(count) {
+  uiSetCount('winners', count);
 }
 
 function uiIncWinnersCount() {
@@ -282,64 +149,131 @@ function uiDecWinnersCount() {
   uiSetCount('winners', uiGetCount('winners') - 1);
 }
 
-async function uiAddCarToGarage(id, name, color) {
-  addElement('.race-area', 'div', 'race', null, null, { name: 'data-id', value: id });
-  addElement(`.race[data-id="${id}"]`, 'div', 'race__buttons');
-  addElement(`.race[data-id="${id}"] .race__buttons`, 'button', 'button button_black race__button race__button_select', null, 'select');
-  addElement(`.race[data-id="${id}"] .race__buttons`, 'button', 'button button_black race__button race__button_remove', null, 'remove');
-  addElement(`.race[data-id="${id}"]`, 'div', 'race__controls', '');
-  addElement(`.race[data-id="${id}"] .race__controls`, 'button', 'button button_main-color button_round race__control race__control_start');
-  addElement(`.race[data-id="${id}"] .race__control_start`, 'img', 'race__control-img', null, null, { name: 'src', value: './images/button-start.svg' });
-  addElement(`.race[data-id="${id}"] .race__controls`, 'button', 'button button_main-color button_round race__control race__control_stop');
-  addElement(`.race[data-id="${id}"] .race__control_stop`, 'img', 'race__control-img', null, null, { name: 'src', value: './images/button-stop.svg' });
-  addElement(`.race[data-id="${id}"] .race__controls`, 'p', 'race__car-name');
-  addElement(`.race[data-id="${id}"]`, 'div', 'race__road');
-  addElement(`.race[data-id="${id}"] .race__road`, 'div', 'race__car');
-  const carImg = await loadSvg('./images/car.svg').then((data) => data);
-  document.querySelector(`.race[data-id="${id}"] .race__car`).innerHTML = carImg;
-  setCarProps(id, name, color);
-  addElement(`.race[data-id="${id}"] .race__road`, 'img', 'race__flag', null, null, { name: 'src', value: './images/flag.svg' });
-  uiIncGarageCount();
+function uiResetRace(id) {
 
-  document.querySelector(`.race[data-id="${id}"] .race__button_remove`).addEventListener('click', () => uiRemoveCarFromGarage(id));
-  document.querySelector(`.race[data-id="${id}"] .race__button_select`).addEventListener('click', () => uiSelectCar(id));
-  setEnabled('.controls__race-button');
-  garagePages.update();
 }
 
-function uiRemoveCarFromGarage(id) {
+// function uiSetGaragePage(cars, page, pagesCount) {
+//   document.querySelectorAll('.race').forEach((race) => race.remove());
+//   cars.forEach((car) => uiAddCarToGarage(car));
+//   setPageControls('garage', page, pagesCount);
+// }
+
+function uiSetPage(pageName, pageNum, pagesCount, cars, addCarCallback) {
+  const items = document.querySelectorAll(`.tab-${pageName} .page__item`);
+  if (cars.length > items.length) {
+    for (let i = 0; i < cars.length; i += 1) {
+      if (i < items.length) {
+        items[i].dataset.id = cars[i].id;
+        uiUpdateCar(cars[i]);
+        // uiResetRace(cars[i].id);
+      } else {
+        addCarCallback(cars[i]);
+      }
+    }
+  } else if (cars.length < items.length) {
+    for (let i = 0; i < items.length; i += 1) {
+      if (i < cars.length) {
+        items[i].dataset.id = cars[i].id;
+        uiUpdateCar(cars[i]);
+        // uiResetRace(cars[i].id);
+      } else {
+        items[i].remove();
+      }
+    }
+  } else {
+    items.forEach((race, i) => {
+      const currentRace = race;
+      currentRace.dataset.id = cars[i].id;
+      uiUpdateCar(cars[i]);
+      // uiResetRace(cars[i].id);
+    });
+  }
+  setPageControls(pageName, pageNum, pagesCount);
+}
+
+function uiSetGaragePage(pageNum, pagesCount, cars) {
+  uiSetPage('garage', pageNum, pagesCount, cars, uiAddCarToGarage);
+}
+
+function uiSetWinnersPage(pageNum, maxCarsOnPage, pagesCount, cars) {
+  uiSetPage('winners', pageNum, pagesCount, cars, uiAddCarToWinners);
+  const startNumber = (pageNum - 1) * maxCarsOnPage + 1;
+  document.querySelectorAll('.winners-table__row').forEach((row, index) => {
+    const numberCell = row.querySelector('.winners-table__cell[data-type="number"]');
+    numberCell.textContent = startNumber + index;
+  });
+}
+
+async function uiAddCarToGarage({ id, name, color }) {
+  addElement('.race-area', 'div', 'race page__item', null, null, { name: 'data-id', value: id });
+  const currentRace = `.race[data-id="${id}"]`;
+  addElement(currentRace, 'div', 'race__buttons');
+  addElement(`${currentRace} .race__buttons`, 'button', 'button button_black race__button race__button_select', null, 'select');
+  addElement(`${currentRace} .race__buttons`, 'button', 'button button_black race__button race__button_remove', null, 'remove');
+  addElement(`${currentRace}`, 'div', 'race__controls', '');
+  addElement(`${currentRace} .race__controls`, 'button', 'button button_main-color button_round race__control race__control_start');
+  addElement(`${currentRace} .race__control_start`, 'img', 'race__control-img', null, null, { name: 'src', value: './images/button-start.svg' });
+  document.querySelector(`${currentRace} .race__control_start`).addEventListener('click', () => {
+    document.querySelector(`${currentRace} .race__car`).classList.add('race-animation');
+  });
+  addElement(`${currentRace} .race__controls`, 'button', 'button button_main-color button_round race__control race__control_stop');
+  addElement(`${currentRace} .race__control_stop`, 'img', 'race__control-img', null, null, { name: 'src', value: './images/button-stop.svg' });
+  document.querySelector(`${currentRace} .race__control_stop`).addEventListener('click', () => {
+    document.querySelector(`${currentRace} .race__car`).classList.remove('race-animation');
+  });
+  addElement(`${currentRace} .race__controls`, 'p', 'race__car-name page__car-name');
+  addElement(currentRace, 'div', 'race__road');
+  addElement(`${currentRace} .race__road`, 'div', 'race__car page__car');
+  const carImg = await loadSvg('./images/car.svg').then((data) => data);
+  document.querySelector(`${currentRace} .race__car`).innerHTML = carImg;
+  uiUpdateCar({ id, name, color });
+  // uiIncGarageCount();
+
+  document.querySelector(`${currentRace} .race__button_remove`).addEventListener('click', (event) => {
+    deleteCarCallback(getElementAttribute(event.target.closest('.race'), 'data-id'));
+  });
+  document.querySelector(`${currentRace} .race__button_select`).addEventListener('click', (event) => {
+    uiSelectCar(getElementAttribute(event.target.closest('.race'), 'data-id'));
+  });
+  setEnabled('.controls__race-button');
+  // garagePages.update();
+}
+
+function uiDeleteCarFromGarage(id) {
   document.querySelector(`.race[data-id="${id}"]`).remove();
   const curUpdateCarId = document.querySelector('.update-car').dataset.carId;
-  uiDecGarageCount();
   if (+curUpdateCarId === id) {
     document.querySelector('.update-car__name').value = '';
     uiDisableUpdateBlock();
   }
-  uiRemoveCarFromWinners(id);
-  garagePages.update();
+  // uiRemoveCarFromWinners(id);
+  // garagePages.update();
 }
 
-function uiAddCarToWinners(id) {
-  const car = document.querySelector(`.race[data-id="${id}"]`).cloneNode(true);
-  const carImg = car.querySelector('.race__car svg');
-  const carName = car.querySelector('.race__car-name').textContent;
-  addElement('.winners-table__body', 'tr', 'winners-table__row', null, null, { name: 'data-id', value: id });
-  addElement(`.winners-table__row[data-id="${id}"]`, 'td', 'winners-table__cell', null, '1', { name: 'data-type', value: 'number' });
-  addElement(`.winners-table__row[data-id="${id}"]`, 'td', 'winners-table__cell', null, null, { name: 'data-type', value: 'image' });
-  document.querySelector(`.winners-table__row[data-id="${id}"] .winners-table__cell[data-type="image"]`).append(carImg);
-  addElement(`.winners-table__row[data-id="${id}"]`, 'td', 'winners-table__cell', null, carName, { name: 'data-type', value: 'name' });
-  addElement(`.winners-table__row[data-id="${id}"]`, 'td', 'winners-table__cell', null, '0', { name: 'data-type', value: 'wins' });
-  addElement(`.winners-table__row[data-id="${id}"]`, 'td', 'winners-table__cell', null, '0', { name: 'data-type', value: 'time' });
-  uiIncWinnersCount();
-  winnersPages.update();
+async function uiAddCarToWinners({
+  id, time, wins, name, color,
+}) {
+  const carImg = await loadSvg('./images/car.svg').then((data) => data);
+  const elementNumber = (document.querySelector('.winners-table__body').children.length + 1) * (+document.querySelector('.tab-winners__page-number').textContent);
+  addElement('.winners-table__body', 'tr', 'winners-table__row page__item', null, null, { name: 'data-id', value: id });
+  addElement(`.winners-table__row[data-id="${id}"]`, 'td', 'winners-table__cell', null, elementNumber, { name: 'data-type', value: 'number' });
+  addElement(`.winners-table__row[data-id="${id}"]`, 'td', 'winners-table__cell page__car', null, null, { name: 'data-type', value: 'image' });
+  document.querySelector(`.winners-table__row[data-id="${id}"] .winners-table__cell[data-type="image"]`).innerHTML = carImg;
+  uiSetCarColor('tab-winners', id, color);
+  addElement(`.winners-table__row[data-id="${id}"]`, 'td', 'winners-table__cell page__car-name', null, name, { name: 'data-type', value: 'name' });
+  addElement(`.winners-table__row[data-id="${id}"]`, 'td', 'winners-table__cell page__wins', null, wins, { name: 'data-type', value: 'wins' });
+  addElement(`.winners-table__row[data-id="${id}"]`, 'td', 'winners-table__cell page__time', null, time, { name: 'data-type', value: 'time' });
+  // uiIncWinnersCount();
+  // winnersPages.update();
 }
 
-function uiRemoveCarFromWinners(id) {
+function uiDeleteCarFromWinners(id) {
   const carInWinnersTable = document.querySelector(`.winners-table__row[data-id="${id}"]`);
   if (carInWinnersTable) {
     carInWinnersTable.remove();
-    uiDecWinnersCount();
-    winnersPages.update();
+    // uiDecWinnersCount();
+    // winnersPages.update();
   }
 }
 
@@ -356,18 +290,7 @@ function uiDisableUpdateBlock() {
   removeElementAttribute('.update-car', 'data-car-id');
 }
 
-function setListeners() {
-  document.querySelector('.new-car__button_create').addEventListener('click', () => {
-    const name = document.querySelector('.new-car__name').value;
-    if (name === '') return;
-    const color = document.querySelector('.new-car__button_color').value;
-    const node = document.querySelectorAll('.race');
-    const id = node.length === 0 ? 0 : +node[node.length - 1].dataset.id + 1;
-    uiAddCarToGarage(id, name, color);
-    document.querySelector('.new-car__name').value = '';
-    setDisabled('.new-car__button_create');
-  });
-
+function uiSetListeners() {
   document.querySelector('.new-car__name').addEventListener('input', (event) => {
     if (event.target.value === '') {
       setDisabled('.new-car__button_create');
@@ -384,15 +307,6 @@ function setListeners() {
     }
   });
 
-  document.querySelector('.update-car__button_update').addEventListener('click', () => {
-    const id = document.querySelector('.update-car').dataset.carId;
-    const name = document.querySelector('.update-car__name').value;
-    const color = document.querySelector('.update-car__button_color').value;
-    setCarProps(id, name, color);
-    document.querySelector('.update-car__name').value = '';
-    uiDisableUpdateBlock();
-  });
-
   mainTabs.forEach((tab) => {
     document.querySelector(`.header__button_tab-${tab}`).addEventListener('click', () => {
       mainTabs.forEach((curTab) => {
@@ -406,6 +320,65 @@ function setListeners() {
       });
     });
   });
+}
+
+function uiGetWinnersSortSettings() {
+  const sortCell = document.querySelector('.winners-table__header-cell[data-order]');
+  return {
+    sortParam: sortCell.dataset.sort,
+    sortOrder: sortCell.dataset.order,
+  };
+}
+
+function uiSetCallbacks(
+  garageCreateCar,
+  garageUpdateCar,
+  deleteCallback,
+  garagePreviousPage,
+  garageNextPage,
+  winnersPreviousPage,
+  winnersNextPage,
+  winnersSort,
+  generateCars,
+) {
+  document.querySelector('.tab-garage__prev-page').addEventListener('click', garagePreviousPage);
+  document.querySelector('.tab-garage__next-page').addEventListener('click', garageNextPage);
+  document.querySelector('.tab-winners__prev-page').addEventListener('click', winnersPreviousPage);
+  document.querySelector('.tab-winners__next-page').addEventListener('click', winnersNextPage);
+  document.querySelector('.controls__generate-button').addEventListener('click', generateCars);
+
+  document.querySelectorAll('.winners-table__header-cell[data-sort]').forEach((sort) => sort.addEventListener('click', (event) => {
+    const sortCell = event.currentTarget;
+    document.querySelectorAll('.winners-table__header-cell[data-sort]').forEach((cell) => {
+      if (cell.dataset.sort !== sortCell.dataset.sort) {
+        cell.removeAttribute('data-order');
+      }
+    });
+    const sortParam = sortCell.dataset.sort;
+    const sortOrder = sortCell.dataset.order === 'ASC' ? 'DESC' : 'ASC';
+    sortCell.dataset.order = sortOrder;
+    winnersSort({ sortParam, sortOrder });
+  }));
+
+  document.querySelector('.new-car__button_create').addEventListener('click', () => {
+    const name = document.querySelector('.new-car__name').value;
+    // if (name === '') return;
+    const color = document.querySelector('.new-car__button_color').value;
+    document.querySelector('.new-car__name').value = '';
+    setDisabled('.new-car__button_create');
+    garageCreateCar({ name, color });
+  });
+
+  document.querySelector('.update-car__button_update').addEventListener('click', () => {
+    const id = document.querySelector('.update-car').dataset.carId;
+    const name = document.querySelector('.update-car__name').value;
+    const color = document.querySelector('.update-car__button_color').value;
+    document.querySelector('.update-car__name').value = '';
+    uiDisableUpdateBlock();
+    garageUpdateCar({ id, name, color });
+  });
+
+  deleteCarCallback = deleteCallback;
 }
 
 function initControlPanel() {
@@ -468,7 +441,7 @@ function initGarage() {
   addElement('.tab-garage', 'div', 'tab-caption tab-garage__caption', '');
   addElement('.tab-garage__caption', 'span', 'tab-caption__text tab-garage__caption-text', null, 'garage');
   addElement('.tab-garage__caption', 'span', 'tab-caption__count tab-garage__cars-count', null, '0');
-  addElement('.tab-garage', 'div', 'race-area', '');
+  addElement('.tab-garage', 'div', 'race-area page', '');
   addPageControl('garage');
 }
 
@@ -480,19 +453,19 @@ function initWinners() {
   addElement('.winners-table-wrap', 'table', 'winners-table');
   addElement('.winners-table', 'thead', 'winners-table__header');
   addElement('.winners-table__header', 'tr', 'winners-table__header-row');
-  addElement('.winners-table', 'tbody', 'winners-table__body');
+  addElement('.winners-table', 'tbody', 'winners-table__body page');
   ['#', 'car', 'name'].forEach((caption) => addElement('.winners-table__header-row', 'th', 'winners-table__header-cell', null, caption));
-  addElement('.winners-table__header-row', 'th', 'winners-table__header-cell', null, 'wins', { name: 'data-sort', value: 'wins' });
-  addElement('.winners-table__header-row', 'th', 'winners-table__header-cell', null, 'best time (sec)', { name: 'data-sort', value: 'time' });
+  addElement('.winners-table__header-row', 'th', 'winners-table__header-cell', null, null, [{ name: 'data-sort', value: 'wins' }, { name: 'data-order', value: 'ASC' }]);
+  addElement('.winners-table__header-cell[data-sort="wins"]', 'div', 'winners-table__header-cell-content', null, 'wins');
+  addElement('.winners-table__header-cell[data-sort="wins"] .winners-table__header-cell-content', 'img', 'sort-arrow', null, null, { name: 'src', value: './images/arrow-up.svg' });
+  addElement('.winners-table__header-row', 'th', 'winners-table__header-cell', null, null, { name: 'data-sort', value: 'time' });
+  addElement('.winners-table__header-cell[data-sort="time"]', 'div', 'winners-table__header-cell-content', null, 'time (sec)');
+  addElement('.winners-table__header-cell[data-sort="time"] .winners-table__header-cell-content', 'img', 'sort-arrow', null, null, { name: 'src', value: './images/arrow-up.svg' });
   addPageControl('winners');
 }
 
-function uiSetCarColor(raceId, color) {
-  document.querySelector(`.race[data-id="${raceId}"] .car__body`).style.fill = color;
-  const carInWinnersTable = document.querySelector(`.winners-table__row[data-id="${raceId}"]`);
-  if (carInWinnersTable) {
-    carInWinnersTable.querySelector('.winners-table__cell[data-type="image"] .car__body').style.fill = color;
-  }
+function uiSetCarColor(pageClassName, id, color) {
+  document.querySelector(`.${pageClassName} .page__item[data-id="${id}"] .car__body`).style.fill = color;
 }
 
 function rgbToHex(color) {
@@ -510,13 +483,20 @@ function uiSelectCar(id) {
   setElementAttribute('.update-car', 'data-car-id', id);
 }
 
-function setCarProps(id, name, color) {
-  uiSetCarColor(id, color);
-  document.querySelector(`.race[data-id="${id}"] .race__car-name`).textContent = name;
-  const carInWinnersTable = document.querySelector(`.winners-table__row[data-id="${id}"]`);
-  if (carInWinnersTable) {
-    carInWinnersTable.querySelector('.winners-table__cell[data-type="name"]').textContent = name;
-  }
+function uiUpdateCar({ id, name, color, wins, time }) {
+  mainTabs.forEach((tab) => {
+    const pageItem = `.tab-${tab} .page__item[data-id="${id}"]`;
+    if (document.querySelector(pageItem)) {
+      uiSetCarColor(`tab-${tab}`, id, color);
+      document.querySelector(`${pageItem} .page__car-name`).textContent = name;
+      if (document.querySelector(`${pageItem} .page__wins`) && wins) {
+        document.querySelector(`${pageItem} .page__wins`).textContent = wins;
+      }
+      if (document.querySelector(`${pageItem} .page__time`) && time) {
+        document.querySelector(`${pageItem} .page__time`).textContent = time;
+      }
+    }
+  });
 }
 
 function initStates() {
@@ -529,11 +509,6 @@ function initStates() {
   });
 }
 
-function initPaginator() {
-  garagePages = new Paginator('race-area', 'tab-garage__page-controls', maxGaragePageItems);
-  winnersPages = new Paginator('winners-table__body', 'tab-winners__page-controls', maxWinnersPageItems);
-}
-
 function initUi() {
   initBody();
   initTabs();
@@ -541,8 +516,7 @@ function initUi() {
   initGarage();
   initWinners();
   initStates();
-  setListeners();
-  initPaginator();
+  uiSetListeners();
 }
 
 function uiSetTabActive(tab) {
@@ -553,8 +527,14 @@ export {
   initUi,
   uiSetTabActive,
   uiAddCarToGarage,
-  uiRemoveCarFromGarage,
+  uiDeleteCarFromGarage,
   uiAddCarToWinners,
-  uiRemoveCarFromWinners,
-  garagePages,
+  uiDeleteCarFromWinners,
+  uiSetGarageCount,
+  uiSetWinnersCount,
+  uiSetGaragePage,
+  uiSetWinnersPage,
+  uiSetCallbacks,
+  uiUpdateCar,
+  uiGetWinnersSortSettings,
 };

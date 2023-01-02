@@ -1,5 +1,11 @@
 @import './mixin-var.scss';
 
+.sort-arrow {
+  display: none;
+  height: 20px;
+  transform-origin: center;
+}
+
 .winners-table {
   margin-bottom: 30px;
 
@@ -24,8 +30,22 @@
     padding: 15px;
     background-color: $main-color;
     color: #000000;
+
     &[data-sort] {
       cursor: pointer;
+    }
+
+    &[data-order] .sort-arrow{
+      display: block;
+    }
+
+    &[data-order="DESC"] .sort-arrow {
+      transform: rotate(180deg);
+    }
+
+    &-content {
+      @include flex-row-center;
+      gap: 0;
     }
   }
 }

@@ -56,7 +56,7 @@
     width: calc(100% + 80px);
     position: relative;
     left: -40px;
-    background: url('./../images/race-bg.svg') 0 0/ cover repeat;
+    background: url('./../images/flag.svg') calc(100% - 135px) calc(100% - 1px) no-repeat, url('./../images/race-bg.svg') 0 0/ cover repeat;
   }
 
   &__car {
@@ -66,12 +66,6 @@
     left: 40px;
     height: 65px;
     z-index: 2;
-  }
-
-  &__flag {
-    position: absolute;
-    bottom: 1px;
-    right: 135px;
   }
 
   &__buttons, &__controls {
@@ -92,3 +86,23 @@
     }
   }
 }
+
+.race-animation {
+  left: calc(100vw - 170px);
+  transition: 2s left linear;
+  .car__wheel {
+    transform-box: fill-box;
+    transform: rotate(1360deg);
+    transition: 2s transform linear;
+    // animation: 4s ease-in-out animate-wheel;
+  }
+}
+
+// @keyframes animate-wheel {
+//   from {
+//     transform: rotate(0);
+//   }
+//   to {
+//     transform: rotate(1360deg);
+//   }
+// }

@@ -2,19 +2,49 @@
   {
     "brand": "BMW",
     "models": [
-      "M3", "M4", "M5", "M7", "3.0 CSL", "E34", "E30", "E39", "E38", "E60"
+      "E34 M5", "E39 M5", "E34 540", "E30 M3", "E39 540", "E38 750", "E60 540", "3.0 CSL", "E31 850 CSi", "Alpina B12"
     ]
   },
   {
     "brand": "Mercedes",
     "models": [
-      "W124 E500", "W140", "W123", "W210", "W211"
+      "W124 E500", "W140 S600", "W123", "W210", "W211"
     ]
   },
   {
     "brand": "Nissan",
     "models": [
       "GT-R", "Skyline", "Silvia", "Bluebird"
+    ]
+  },
+  {
+    "brand": "Subaru",
+    "models": [
+      "Legacy", "Impreza WRX", "Impreza WRX STI", "BRZ"
+    ]
+  },
+  {
+    "brand": "Toyota",
+    "models": [
+      "Supra", "Mark II", "Chaser", "S800", "GT86"
+    ]
+  },
+  {
+    "brand": "Tesla",
+    "models": [
+      "Model S", "Model X", "Model Y", "Model 3"
+    ]
+  },
+  {
+    "brand": "Lamborghini",
+    "models": [
+      "Hurracan", "Countach", "Murcielago", "Diablo"
+    ]
+  },
+  {
+    "brand": "DeLorean",
+    "models": [
+      "DMC-12", "DMC-12 Time Machine"
     ]
   }
 ]
