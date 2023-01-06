@@ -1,6 +1,6 @@
 const host = 'http://localhost:3000';
 
-async function apiSendRequest(pathname, searchParams, params = {}) {
+async function sendRequest(pathname, searchParams, params = {}) {
   const url = new URL(pathname, host);
   if (searchParams) {
     Object.keys(searchParams).forEach((key) => url.searchParams.append(key, searchParams[key]));
@@ -13,13 +13,10 @@ async function apiSendRequest(pathname, searchParams, params = {}) {
       return response.json();
     })
     .then((data) => data);
-    // .catch((error) => console.log(error.message));
-  // const log = await result.json().then((data) => data);
-  // console.log('request result ', result);
   return result;
 }
 
-async function apiSendPageRequest(pathname, searchParams, params = {}) {
+async function sendPageRequest(pathname, searchParams, params = {}) {
   let totalCount;
   const url = new URL(pathname, host);
   if (searchParams) {
@@ -34,13 +31,13 @@ async function apiSendPageRequest(pathname, searchParams, params = {}) {
   return { carsList, totalCount };
 }
 
-async function apiGetCars(_page, _limit) {
-  const result = await apiSendPageRequest('garage', { _page, _limit });
+async function getCars(_page, _limit) {
+  const result = await sendPageRequest('garage', { _page, _limit });
   return result;
 }
 
-async function apiGetCar(id) {
-  const result = await apiSendRequest(`garage/${id}`)
+async function getCar(id) {
+  const result = await sendRequest(`garage/${id}`)
     .catch((error) => {
       switch (error.message) {
         case '404': return { status: 'not found' };
@@ -50,7 +47,7 @@ async function apiGetCar(id) {
   return result;
 }
 
-async function apiCreateCar(car) {
+async function createCar(car) {
   const params = {
     method: 'POST',
     headers: {
@@ -58,11 +55,11 @@ async function apiCreateCar(car) {
     },
     body: JSON.stringify(car),
   };
-  const result = await apiSendRequest('garage', null, params);
+  const result = await sendRequest('garage', null, params);
   return result;
 }
 
-async function apiUpdateCar({ id, name, color }) {
+async function updateCar({ id, name, color }) {
   const params = {
     method: 'PUT',
     headers: {
@@ -70,7 +67,7 @@ async function apiUpdateCar({ id, name, color }) {
     },
     body: JSON.stringify({ name, color }),
   };
-  const result = await apiSendRequest(`garage/${id}`, null, params)
+  const result = await sendRequest(`garage/${id}`, null, params)
     .catch((error) => {
       switch (error.message) {
         case '404': return { status: 'not found' };
@@ -80,8 +77,8 @@ async function apiUpdateCar({ id, name, color }) {
   return result;
 }
 
-async function apiDeleteCar(id) {
-  const result = await apiSendRequest(`garage/${id}`, null, { method: 'DELETE' })
+async function deleteCar(id) {
+  const result = await sendRequest(`garage/${id}`, null, { method: 'DELETE' })
     .catch((error) => {
       switch (error.message) {
         case '404': return { status: 'not found' };
@@ -91,8 +88,8 @@ async function apiDeleteCar(id) {
   return result;
 }
 
-async function apiStartStopCar(id, status) {
-  const result = await apiSendRequest('engine', { id, status }, { method: 'PATCH' })
+async function startStopCar(id, status) {
+  const result = await sendRequest('engine', { id, status }, { method: 'PATCH' })
     .catch((error) => {
       switch (error.message) {
         case '400': return { status: 'invalid status' };
@@ -103,18 +100,18 @@ async function apiStartStopCar(id, status) {
   return result;
 }
 
-async function apiStartCar(id) {
-  const result = await apiStartStopCar(id, 'started');
+async function startCar(id) {
+  const result = await startStopCar(id, 'started');
   return result;
 }
 
-async function apiStopCar(id) {
-  const result = await apiStartStopCar(id, 'stopped');
+async function stopCar(id) {
+  const result = await startStopCar(id, 'stopped');
   return result;
 }
 
-async function apiDriveCar(id) {
-  const result = await apiSendRequest('engine', { id, status: 'drive' }, { method: 'PATCH' })
+async function driveCar(id) {
+  const result = await sendRequest('engine', { id, status: 'drive' }, { method: 'PATCH' })
     .then(() => ({ status: 'finished' }))
     .catch((error) => {
       switch (error.message) {
@@ -127,18 +124,18 @@ async function apiDriveCar(id) {
   return result;
 }
 
-async function apiGetAllWinners() {
-  const result = await apiSendRequest('winners');
+async function getAllWinners() {
+  const result = await sendRequest('winners');
   return result;
 }
 
-async function apiGetWinners(page, winnersCarsOnPage) {
-  const result = await apiSendPageRequest('winners', { _page: page, _limit: winnersCarsOnPage });
+async function getWinners(page, winnersCarsOnPage) {
+  const result = await sendPageRequest('winners', { _page: page, _limit: winnersCarsOnPage });
   return result;
 }
 
-async function apiGetSortWinners(page, winnersCarsOnPage, { sortParam, sortOrder }) {
-  const result = await apiSendPageRequest('winners', {
+async function getSortWinners(page, winnersCarsOnPage, { sortParam, sortOrder }) {
+  const result = await sendPageRequest('winners', {
     _page: page,
     _limit: winnersCarsOnPage,
     _sort: sortParam,
@@ -147,11 +144,10 @@ async function apiGetSortWinners(page, winnersCarsOnPage, { sortParam, sortOrder
   return result;
 }
 
-async function apiGetWinner(id) {
-  const result = await apiSendRequest(`winners/${id}`)
+async function getWinner(id) {
+  const result = await sendRequest(`winners/${id}`)
     .catch((error) => {
       switch (error.message) {
-        case '400': return { status: 'invalid status' };
         case '404': return { status: 'not found' };
         default: return { status: 'unknown error' };
       }
@@ -159,12 +155,12 @@ async function apiGetWinner(id) {
   return result;
 }
 
-async function apiDeleteWinner(id) {
-  const result = await apiSendRequest(`winners/${id}`, null, { method: 'DELETE' });
+async function deleteWinner(id) {
+  const result = await sendRequest(`winners/${id}`, null, { method: 'DELETE' });
   return result;
 }
 
-async function apiCreateWinner(id, wins, time) {
+async function createWinner({ id, wins, time }) {
   const params = {
     method: 'POST',
     headers: {
@@ -172,11 +168,11 @@ async function apiCreateWinner(id, wins, time) {
     },
     body: JSON.stringify({ id, wins, time }),
   };
-  const result = await apiSendRequest('winners', null, params);
+  const result = await sendRequest('winners', null, params);
   return result;
 }
 
-async function apiUpdateWinner(id, wins, time) {
+async function updateWinner({ id, wins, time }) {
   const params = {
     method: 'PUT',
     headers: {
@@ -184,24 +180,24 @@ async function apiUpdateWinner(id, wins, time) {
     },
     body: JSON.stringify({ wins, time }),
   };
-  const result = await apiSendRequest(`winners/${id}`, null, params);
+  const result = await sendRequest(`winners/${id}`, null, params);
   return result;
 }
 
 export {
-  apiGetCars,
-  apiGetCar,
-  apiCreateCar,
-  apiDeleteCar,
-  apiUpdateCar,
-  apiStartCar,
-  apiDriveCar,
-  apiStopCar,
-  apiGetWinners,
-  apiGetWinner,
-  apiDeleteWinner,
-  apiCreateWinner,
-  apiUpdateWinner,
-  apiGetSortWinners,
-  apiGetAllWinners,
+  getCars,
+  getCar,
+  createCar,
+  deleteCar,
+  updateCar,
+  startCar,
+  driveCar,
+  stopCar,
+  getWinners,
+  getWinner,
+  deleteWinner,
+  createWinner,
+  updateWinner,
+  getSortWinners,
+  getAllWinners,
 };

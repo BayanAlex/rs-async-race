@@ -1,7 +1,7 @@
 @import './mixin-var.scss';
 
 html {
-  height: fit-content;
+  height: 100%;
 }
 
 .body {
@@ -11,187 +11,42 @@ html {
   font-weight: 500;
   font-size: 16px;
   color: #FFFFFF;
-  height: fit-content;
+  height: 100%;
+
   &__content {
-    padding: 0 40px;
+    padding: 0 $side-padding;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.main {
+  flex: 1 1 auto;
+
+  &__content {
+
   }
 }
 
 .tab {
   width: 100%;
-  padding: 50px 0;
+  padding: 50px 0 0;
   &-caption {
     @include flex-row;
     margin: 40px 0;
     font-size: 23px;
     text-transform: uppercase;
+
     &__count {
+
       &::before {
         content: '[';
       }
+
       &::after {
         content: ']';
       }
-    }
-  }
-}
-
-.button {
-  height: 30px;
-  border-radius: 15px;
-  border: 1px solid $main-color;
-  font-style: normal;
-  text-align: center;
-  font-size: 12px;
-  font-weight: inherit;
-  transition: all 0.5s ease;
-
-  &::first-letter {
-    text-transform: uppercase;
-  }
-
-  &_black {
-    background: #000000;
-    color: #FFFFFF;
-    &:hover {
-      background: $main-color;
-      color: #000000;
-    }
-  }
-
-  &_main-color {
-    background: $main-color;
-    color: #000000;
-    &:hover {
-      background: #000000;
-      color: $main-color;
-    }
-  }
-
-  &_round {
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
-    @include flex-row-center;
-
-    &:hover {
-      img {
-        filter: invert(64%) sepia(14%) saturate(3424%) hue-rotate(356deg) brightness(100%) contrast(105%);
-      }
-    }
-
-    img {
-      height: 14px;
-      width: 14px;
-      user-select: none;
-    }
-
-    &[disabled] {
-      img {
-        filter: invert(28%) sepia(21%) saturate(0%) hue-rotate(214deg) brightness(91%) contrast(90%);
-      }
-    }
-  }
-
-  &[disabled] {
-    @include disabled;
-  }
-}
-
-.input {
-  background: #FFFFFF;
-  color: #000000;
-  width: 240px;
-  height: 30px;
-  border-radius: 15px;
-  padding: 0 16px;
-  font-style: normal;
-  font-size: 12px;
-  font-weight: inherit;
-  &[type="text"]:focus {
-    border: 1px solid $main-color;
-  }
-  &[disabled] {
-    @include disabled;
-  }
-}
-
-input[type="color"] {
-  width: 30px;
-  height: 30px;
-  padding: 0 7px;
-  border-radius: 50%;
-  background: #FFFFFF;
-  cursor: pointer;
-  &::-webkit-color-swatch {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: none;
-    padding: 0;
-    margin: 0;
-    &-wrapper {
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-  &::-moz-color-swatch {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: none;
-    padding: 0;
-    margin: 0;
-    &-wrapper {
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-}
-
-.highlight {
-  color: $main-color;
-}
-
-.header {
-  &__content {
-    position: relative;
-    padding-top: 40px;
-    @include flex-row;
-    gap: 25px;
-    @media screen and (max-width: 650px) {
-      flex-direction: column-reverse;
-      align-items: start;
-    }
-  }
-  &__buttons {
-    display: flex;
-    gap: 25px;
-  }
-  &__button {
-    height: 40px;
-    width: 200px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    font-size: 16px;
-  }
-  &__logo {
-    position: absolute;
-    right: 60px;
-    top: 40px;
-
-    @media screen and (max-width: 900px) {
-      height: 40px;
-      width: auto;
-      position: static;
-    }
-
-    @media screen and (max-width: 650px) {
-      align-self: center;
     }
   }
 }
@@ -205,18 +60,6 @@ input[type="color"] {
   }
 }
 
-.main {
-  &__content {
-
-  }
-}
-
-.footer {
-  &__content {
-
-  }
-}
-
 .car {
   &__body {
 
@@ -225,8 +68,4 @@ input[type="color"] {
   &__wheel {
     transform-origin: center;
   }
-}
-
-.hidden {
-  display: none;
 }

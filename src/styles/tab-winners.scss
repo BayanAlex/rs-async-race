@@ -15,7 +15,8 @@
   }
 
   svg {
-    scale: 0.7;
+    width: 70px;
+    height: 40px;
   }
 
   &__cell {
@@ -23,6 +24,10 @@
     padding: 5px 15px;
     background-color: gray;
     color: #000000;
+
+    @media screen and (max-width: 620px) {
+      padding: 5px 5px;
+    }
   }
 
   &__header-cell {
@@ -30,6 +35,10 @@
     padding: 15px;
     background-color: $main-color;
     color: #000000;
+
+    @media screen and (max-width: 620px) {
+      padding: 15px 5px;
+    }
 
     &[data-sort] {
       cursor: pointer;
@@ -58,5 +67,9 @@
 
   &__caption {
     justify-content: center;
+  }
+
+  @media screen and (max-width: 900px) {
+    padding-top: 0;
   }
 }

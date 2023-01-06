@@ -15,13 +15,21 @@ async function libGenerateCars(amount) {
     const carBrand = carsList[carBrandIndex].brand;
     const carModelIndex = randomRange(0, carsList[carBrandIndex].models.length - 1);
     const carModel = carsList[carBrandIndex].models[carModelIndex];
+    const color = `00000${randomRange(0, 0xFFFFFF).toString(16)}`.slice(-6);
     const car = {
       name: `${carBrand} ${carModel}`,
-      color: `#${randomRange(0, 0xFFFFFF).toString(16)}`,
+      color: `#${color}`,
     };
     results.push(car);
   }
   return results;
 }
 
-export { libGenerateCars };
+function rgbToHex(color) {
+  return color.match(/\d+/g).reduce((result, value) => {
+    const hexVal = (+value).toString(16);
+    return result + (hexVal.length > 1 ? hexVal : `0${hexVal}`);
+  }, '#');
+}
+
+export { libGenerateCars, rgbToHex };

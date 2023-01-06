@@ -1,0 +1,43 @@
+@import './mixin-var.scss';
+
+.popup {
+  width: fit-content;
+  height: fit-content;
+  scale: 0;
+  position: fixed;
+  border-radius: 15px;
+  border: 1px solid $main-color;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+  background-color: rgba(#000000, 0.8);
+  z-index: 3;
+  transition: scale 0.5s ease;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 40px;
+  }
+
+  &__cup {
+    width: 200px;
+  }
+
+  &__caption {
+    text-transform: uppercase;
+    font-size: 2rem;
+  }
+
+  &__close-button {
+    padding: 0 20px;
+  }
+}
+
+.show-popup {
+  scale: 1;
+}

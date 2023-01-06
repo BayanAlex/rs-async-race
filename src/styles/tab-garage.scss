@@ -5,6 +5,34 @@
   &__page-controls {
     justify-content: center;
   }
+
+  &__caption-wrap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+
+    @media screen and (max-width: 620px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+.race-stopwatch {
+  justify-self: center;
+  font-size: 23px;
+  color: $main-color;
+
+  @media screen and (max-width: 620px) {
+    justify-self: end;
+  }
+
+  &::before {
+    content: '[';
+  }
+
+  &::after {
+    content: ']';
+  }
 }
 
 .control-panel {
@@ -20,6 +48,10 @@
 
 .control-panel {
   @include flex-column;
+
+  @media screen and (max-width: 670px) {
+    align-items: center;
+  }
 }
 
 .new-car {
@@ -55,7 +87,7 @@
     height: 120px;
     width: calc(100% + 80px);
     position: relative;
-    left: -40px;
+    left: -$side-padding;
     background: url('./../images/flag.svg') calc(100% - 135px) calc(100% - 1px) no-repeat, url('./../images/race-bg.svg') 0 0/ cover repeat;
   }
 
@@ -63,7 +95,7 @@
     width: fit-content;
     position: absolute;
     bottom: 5px;
-    left: 40px;
+    left: $side-padding;
     height: 65px;
     z-index: 2;
   }
@@ -88,21 +120,9 @@
 }
 
 .race-animation {
-  left: calc(100vw - 170px);
-  transition: 0 left linear;
   .car__wheel {
     transform-box: fill-box;
     transform: rotate(1360deg);
-    transition: 0 transform linear;
-    // animation: 4s ease-in-out animate-wheel;
+    transition: transform 0s linear;
   }
 }
-
-// @keyframes animate-wheel {
-//   from {
-//     transform: rotate(0);
-//   }
-//   to {
-//     transform: rotate(1360deg);
-//   }
-// }

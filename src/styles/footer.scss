@@ -1,0 +1,31 @@
+@import './mixin-var.scss';
+
+.footer {
+
+    &__content {
+        padding: 50px 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__github-logo, &__rs-logo {
+        padding: 5px;
+        background-color: $main-color;
+        border-radius: 15px;
+
+    }
+
+    &__github-img, &__rs-img {
+        height: 20px;
+        width: 90px;
+        background-color: $main-color;
+        fill: white;
+    }
+
+    &__copyright {
+        font-weight: 700;
+        text-align: center;
+        color: #fff;
+    }
+}
