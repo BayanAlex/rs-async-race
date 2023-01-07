@@ -40,6 +40,11 @@
       padding: 15px 5px;
     }
 
+    &[data-name] {
+      width: 300px;
+      max-width: 300px;
+    }
+
     &[data-sort] {
       cursor: pointer;
     }

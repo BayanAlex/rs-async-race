@@ -613,7 +613,8 @@ function initWinners() {
   addElement('.winners-table', 'thead', 'winners-table__header');
   addElement('.winners-table__header', 'tr', 'winners-table__header-row');
   addElement('.winners-table', 'tbody', 'winners-table__body page');
-  ['#', 'car', 'name'].forEach((caption) => addElement('.winners-table__header-row', 'th', 'winners-table__header-cell', null, caption));
+  ['#', 'car'].forEach((caption) => addElement('.winners-table__header-row', 'th', 'winners-table__header-cell', null, caption));
+  addElement('.winners-table__header-row', 'th', 'winners-table__header-cell', null, 'name', { name: 'data-name', value: '' });
   addElement('.winners-table__header-row', 'th', 'winners-table__header-cell', null, null, [{ name: 'data-sort', value: 'wins' }, { name: 'data-order', value: 'ASC' }]);
   addElement('.winners-table__header-cell[data-sort="wins"]', 'div', 'winners-table__header-cell-content', null, 'wins');
   addElement('.winners-table__header-cell[data-sort="wins"] .winners-table__header-cell-content', 'img', 'sort-arrow', null, null, { name: 'src', value: './images/arrow-up.svg' });
