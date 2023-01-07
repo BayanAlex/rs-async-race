@@ -1,14 +1,10 @@
-async function loadCars() {
-  const cars = await fetch('../data/cars.json').then((response) => response.json()).then((data) => data);
-  return cars;
-}
+import carsList from '../../../data/cars.json';
 
 function randomRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 async function libGenerateCars(amount) {
-  const carsList = await loadCars().then((data) => data);
   const results = [];
   for (let i = 0; i < amount; i += 1) {
     const carBrandIndex = randomRange(0, carsList.length - 1);
