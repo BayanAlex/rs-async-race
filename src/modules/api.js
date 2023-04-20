@@ -1,4 +1,4 @@
-const host = 'http://localhost:3000';
+const host = 'https://async-race-api.up.railway.app';
 
 async function sendRequest(pathname, searchParams, params = {}) {
   const url = new URL(pathname, host);

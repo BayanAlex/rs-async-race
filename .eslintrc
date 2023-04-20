@@ -5,7 +5,8 @@
     },
     "extends": "airbnb",
     "rules": {
-        "max-lines-per-function": ["error", 40]
+        "max-lines-per-function": ["error", 40],
+        "linebreak-style": ["error", "windows"]
     },
     "env": {
         "browser": true,
