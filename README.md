@@ -13,4 +13,8 @@
   
 `HTML` `SCSS` `JavaScript` `Webpack` `Eslint`  
 
+<details>
+<summary>Screenshots</summary>
+
 [![LINK](https://github.com/BayanAlex/portfolio/blob/main/img/async-race.png)](https://bayanalex.github.io/rs-async-race/)
+</details>
