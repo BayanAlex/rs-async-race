@@ -115,7 +115,7 @@ async function driveCar(id) {
     .then(() => ({ status: 'finished' }))
     .catch((error) => {
       switch (error.message) {
-        case '499': return { status: 'broken' };
+        case '500': return { status: 'broken' };
         case '429': return { status: 'ignore' };
         case '404': return { status: 'not found' };
         default: return { status: 'unknown error' };
