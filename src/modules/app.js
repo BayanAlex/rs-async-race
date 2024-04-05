@@ -133,18 +133,18 @@ class RaceApp {
 
   startCar = async (id) => {
     const startTime = Date.now();
-    this.lastDriveRequestStartTime[id] = startTime;
+    this.lastDriveRequestStartTime.set(id, startTime);
     let result = await api.startCar(id);
     this.runningCars.add(id);
 
-    if (startTime !== this.lastDriveRequestStartTime[id]) {
+    if (startTime !== this.lastDriveRequestStartTime.get(id)) {
       return { status: 'ignore' };
     }
     result.id = id;
     if (result.status) return Promise.reject();
     ui.driveCar(id, result);
     result = await api.driveCar(id);
-    if (startTime !== this.lastDriveRequestStartTime[id]) {
+    if (startTime !== this.lastDriveRequestStartTime.get(id)) {
       return { status: 'ignore' };
     }
     switch (result.status) {
@@ -171,7 +171,7 @@ class RaceApp {
     this.runningCars.delete(id);
     if (result.status) return;
     if (+result.velocity === 0) {
-      this.lastDriveRequestStartTime[id] = 0;
+      this.lastDriveRequestStartTime.set(id, 0);
       ui.resetCar(id);
     }
   };
@@ -239,7 +239,7 @@ class RaceApp {
     ui.initUi();
     this.setCallbacks();
     await this.getGarage(1);
-    await this.getSortWinners(1, ui.getWinnersSortSettings());
+    await this.getSortWinners(1);
   }
 }
 
